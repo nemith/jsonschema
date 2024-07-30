@@ -44,16 +44,18 @@ func (d *discriminator) Validate(ctx *jsonschema.ValidatorContext, v any) {
 func discriminatorVocab() *jsonschema.Vocabulary {
 	url := "http://example.com/meta/discriminator"
 	schema, err := jsonschema.UnmarshalJSON(strings.NewReader(`{
-		"discriminator": {
-			"type": "object",
-			"minProperties": 1,
-			"maxProperties": 1,
-			"patternProperties": {
-				".*": {
-					"type": "object",
-					"patternProperties": {
-						".*": {
-							"$ref": "https://json-schema.org/draft/2020-12/schema"
+		"properties" : {
+			"discriminator": {
+				"type": "object",
+				"minProperties": 1,
+				"maxProperties": 1,
+				"patternProperties": {
+					".*": {
+						"type": "object",
+						"patternProperties": {
+							".*": {
+								"$ref": "https://json-schema.org/draft/2020-12/schema"
+							}
 						}
 					}
 				}
@@ -141,7 +143,6 @@ func Example_vocab_discriminator() {
 		}
 	}`))
 	if err != nil {
-		fmt.Println("xxx", err)
 		log.Fatal(err)
 	}
 	inst, err := jsonschema.UnmarshalJSON(strings.NewReader(`{
