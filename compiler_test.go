@@ -229,3 +229,15 @@ func TestCustomVocabSubschemaResource(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestNonJSONResource(t *testing.T) {
+	c := jsonschema.NewCompiler()
+	err := c.AddResource("schema.json", strings.NewReader("123"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = c.Compile("schema.json")
+	if err == nil {
+		t.Fatal("compile must fail")
+	}
+}
